@@ -1,0 +1,20 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    line-height: 1.5;
+    background: #172F35;
+    background: linear-gradient(180deg,rgba(23, 47, 53, 1) 25%, rgba(0, 0, 0, 1) 100%);
+}
+
+.Prayer-times {
+    font: 400;
+    font-family: 'Rubik';
+    color: white;
+}
+
+.adhan-time, .between-prayers-time {
+    font-size:smaller;
+}

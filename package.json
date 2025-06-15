@@ -1,0 +1,12 @@
+{
+  "name": "time-between-prayers",
+  "version": "1.0.0",
+  "description": "<!-- <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\r <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\r <link href=\"https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\"> -->",
+  "main": "script.js",
+   "type": "module",
+  "scripts": {
+    "start": "script.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
