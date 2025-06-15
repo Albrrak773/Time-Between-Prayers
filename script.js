@@ -18,7 +18,6 @@ let options = {
     "is24hFormattings":true,
 }
 
-
 async function getPrayerTimes(){
     const requestOptions = {
         method: "GET",
@@ -29,48 +28,40 @@ async function getPrayerTimes(){
     const date = "Date";
     const timeZone = "Asia/Riyadh";
     return fetch(`http://api.aladhan.com/v1//timings/${date}?latitude=${latitude}&longitude=${longitude}&method=4&timezonestring=${timeZone}&calendarMethod=HJCoSA`, requestOptions)
-
 }
 async function fillTimings(){
     try {
+        // get the API data and clean it
         var responce = await getPrayerTimes();
-        console.log(responce.status);
+        let data = await responce.json();
+        let timings = data["data"]["timings"];
+        // Delete unwanted timings
+        ["Sunrise", "Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].forEach((key) => {delete timings[key]});
+
+        fillAdhanTimings(timings)
+        fillBetweenTime(timings)
     }
     catch (err){
         console.log(`Request Failed...${err}`);
     }
-    let data = await responce.json();
-    console.log("JSON Returned: ", data);
-    let timings = data["data"]["timings"];
-    // Delete unwanted timings
-    ["Sunrise", "Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].forEach((key) => {delete timings[key]});
-    fillAdhanTimings(timings)
-    fillBetweenTime(timings)
 }
 
 function fillAdhanTimings(timings){
-    let times = []//formateAdhanTimings(timings);
-    for (let p in timings){
-        times.push(timings[p]);
+    let times = Object.values(timings)
+    if (options["is24hFormattings"]){
+        times = times.map((time) => {
+            return to12h(time);
+        })
     }
     for (let i = 0; i < adhanTimes.length; i++) {
         let prayer = adhanTimes[i];
-        prayer.innerText = times[i];
         prayer.dir = 'rtl';
-
-        if (options["is24hFormattings"]){
-            // prayer.innerText = (time[0] - 12) == 0 ? "12": time[0] - 12;
-            let AmPmSpcifier = document.createElement('span');
-            AmPmSpcifier.dir = 'rtl';
-            AmPmSpcifier.innerText = times[i][1] ? 'م' : 'ص';
-            prayer.appendChild(AmPmSpcifier);
-        }
+        prayer.innerText = times[i];
     }
 }
 
 function fillBetweenTime(data){
-    const times = fomratBetweenTime(data);
-
+    // const times = fomratBetweenTime(data);
 }
 
 function fomratBetweenTime(data, rounded = 5){
