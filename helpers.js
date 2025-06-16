@@ -1,7 +1,7 @@
 export function to12h(hourMinute){
     let Am = 'ص'
     let Pm = 'م'
-    if (!hourMinute || hourMinute.length < 4 || !hourMinute.includes(":")) {
+    if (!hourMinute || hourMinute.length < 4 || hourMinute.charAt(2) != ':') {
         throw new Error(`function 'to12h' expects a paramter in the format hh:mm, but got: ${hourMinute}`);
     }
     let hour = Number(hourMinute.split(":")[0])
@@ -24,4 +24,12 @@ export function to12h(hourMinute){
     }
 }
 
-console.log(to12h("09:00"));
+export function getHourDiff(hourMinute1 = "02:23", hourMinute2 = "13:11"){
+    let hour1 = Number(hourMinute1.split(":")[0]);
+    let hour2 = Number(hourMinute2.split(":")[0]);
+    console.log(hour1);
+    console.log(hour2);
+    console.log(`Diff: ${hour2 - hour1}`);
+}
+
+getHourDiff();
