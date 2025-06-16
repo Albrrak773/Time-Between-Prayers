@@ -1,7 +1,6 @@
-import {to12h} from "./helpers.js";
-console.log("Testing to12h...")
+import { to12h } from "./helpers.js";
 
-const militaryToNormalHourMap = new Map();
+const from24hTo12h = new Map();
 for (let i = 0; i <= 23; i++) {
   const militaryHour = i.toString().padStart(2, "0");
 
@@ -12,9 +11,31 @@ for (let i = 0; i <= 23; i++) {
     normalHour = "12م";
   } else if (i < 12) {
     normalHour = `${i}ص`;
-  } else {
+  } else if (i > 12) {
     normalHour = `${i - 12}م`;
   }
-  militaryToNormalHourMap.set(militaryHour, normalHour);
+  from24hTo12h.set(militaryHour, normalHour);
 }
-console.log(militaryToNormalHourMap);
+console.log("Testing to12h...");
+
+let success = [];
+let fail = [];
+for (let mapping of from24hTo12h) {
+    // console.log(`expecting '${mapping[0]}' to map to '${mapping[1]}'`);
+    let returnValue = to12h(mapping[0] + ":" +  "00");
+    let formattedReturnValue = returnValue.split(":")[0] + returnValue.charAt(returnValue.length -1);
+    // console.log(`Got: '${formattedReturnValue}'`);
+    if (mapping[1] === formattedReturnValue){
+        success.push(`${mapping[0]} was correctly mapped to ${formattedReturnValue}`)
+    } else {
+        fail.push(`expected ${mapping[0]} to map to ${mapping[1]} but got: ${formattedReturnValue}`)
+    }
+}
+
+if (fail.length === 0){
+    console.log("Test Passed No Failures ✅");
+} else {
+    console.log(`Test Failed had ${fail.length} failures ❌`);
+    console.log(fail);
+    console.log("\nSucceded", success);
+}
