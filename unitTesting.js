@@ -34,8 +34,8 @@ for (let mapping of from24hTo12h) {
 
 if (fail.length === 0){
     console.log("Test Passed No Failures ✅");
+    console.log("\nSucceded", success);
 } else {
     console.log(`Test Failed had ${fail.length} failures ❌`);
     console.log(fail);
-    console.log("\nSucceded", success);
 }
