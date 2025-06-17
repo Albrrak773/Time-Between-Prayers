@@ -52,7 +52,7 @@ function testGetHourDiffRaw() {
     timeDiffTests.set(["03:00", "14:15"], "11:15");
     timeDiffTests.set(["11:00", "12:00"], "1:0");
     timeDiffTests.set(["00:00", "02:15"], "2:15");
-    timeDiffTests.set(["9:46", "21:30"], "11:44");
+    timeDiffTests.set(["09:46", "21:30"], "11:44");
     timeDiffTests.set(["12:00", "12:30"], "0:30");
     timeDiffTests.set(["09:32", "13:30"], "3:58");
     timeDiffTests.set(["13:31", "18:59"], "5:28");
