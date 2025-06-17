@@ -1,4 +1,4 @@
-import { getHourDiff, to12h } from "./helpers.js";
+import { getHourDiff, to12h, getPrayerTimes } from "./helpers.js";
 let adhanTimes = []
 let betweenTimes = []
 // add all adhan time span tags
@@ -18,17 +18,6 @@ let options = {
     "is24hFormattings":true,
 }
 
-async function getPrayerTimes(){
-    const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-    };
-    const latitude = "26.132069766303623";
-    const longitude = "43.650431131305425";
-    const date = "Date";
-    const timeZone = "Asia/Riyadh";
-    return fetch(`http://api.aladhan.com/v1//timings/${date}?latitude=${latitude}&longitude=${longitude}&method=4&timezonestring=${timeZone}&calendarMethod=HJCoSA`, requestOptions)
-}
 async function fillTimings(){
     try {
         // get the API data and clean it
@@ -68,10 +57,6 @@ function fillBetweenTime(timings){
         let [hour, min] = diff.split(":");
         betweenElement.innerText = "".concat(hour + "h", min == 0 ? "" : " " + min + "m");
     }
-}
-
-function fomratBetweenTime(data, rounded = 5){
-    let times = to12h(data, "24");
 }
 
 fillTimings();

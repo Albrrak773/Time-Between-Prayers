@@ -65,3 +65,15 @@ export function getHourDiff(hourMinute1, hourMinute2) {
 function isFormatted(timestamp){
     return !(!timestamp || timestamp.length < 4 || timestamp.charAt(2) != ":");
 }
+
+export async function getPrayerTimes(){
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+    };
+    const latitude = "26.132069766303623";
+    const longitude = "43.650431131305425";
+    const date = "Date";
+    const timeZone = "Asia/Riyadh";
+    return fetch(`http://api.aladhan.com/v1//timings/${date}?latitude=${latitude}&longitude=${longitude}&method=4&timezonestring=${timeZone}&calendarMethod=HJCoSA`, requestOptions)
+}
