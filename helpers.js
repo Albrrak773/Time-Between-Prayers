@@ -1,35 +1,57 @@
-export function to12h(hourMinute){
-    let Am = 'ص'
-    let Pm = 'م'
-    if (!hourMinute || hourMinute.length < 4 || hourMinute.charAt(2) != ':') {
-        throw new Error(`function 'to12h' expects a paramter in the format hh:mm, but got: ${hourMinute}`);
+export function to12h(hourMinute) {
+  let Am = "ص";
+  let Pm = "م";
+  if (!hourMinute || hourMinute.length < 4 || hourMinute.charAt(2) != ":") {
+    throw new Error(
+      `function 'to12h' expects a paramter in the format hh:mm, but got: ${hourMinute}`
+    );
+  }
+  let hour = Number(hourMinute.split(":")[0]);
+  if (hour === 12) {
+    return "".concat(hour, ":", hourMinute.split(":")[1], Pm);
+  } else if (hour === 0) {
+    return "".concat(12, ":", hourMinute.split(":")[1], Am);
+  } else if (hour > 12) {
+    hour -= 12;
+    return "".concat(hour, ":", hourMinute.split(":")[1], Pm);
+  } else if (hour < 12) {
+    if (hourMinute[0] == 0) {
+      return "".concat(hourMinute[1], ":", hourMinute.split(":")[1], Am);
+    } else {
+      return "".concat(hour, ":", hourMinute.split(":")[1], Am);
     }
-    let hour = Number(hourMinute.split(":")[0])
-    if (hour === 12){
-        return "".concat(hour, ":", hourMinute.split(":")[1], Pm);
-    }
-    else if (hour === 0){
-        return "".concat(12, ":", hourMinute.split(":")[1], Am);
-    }
-    else if (hour > 12) {
-        hour -= 12;
-        return "".concat(hour, ":", hourMinute.split(":")[1], Pm);
-    }
-    else if (hour < 12){
-        if (hourMinute[0] == 0){
-            return "".concat(hourMinute[1], ":", hourMinute.split(":")[1], Am);
-        } else {
-            return "".concat(hour, ":", hourMinute.split(":")[1], Am);
-        }
-    }
+  }
+}
+/**
+ * Returns the Diffenerence in hours and minutes between 2 timestamps.
+ *
+ * '03:00' and '09:00' would return = '06:00'
+ *
+ * If earlier time was later than the later time, It would be assumed that its the next day and will return the difference
+ * without throwing an error.
+ * @param {Number} hourMinute1 - The Earlier Time
+ * @param {Number} hourMinute2 The Later Time
+ * @returns
+ */
+export function getHourDiff(hourMinute1 = "02:23", hourMinute2 = "13:11") {
+  let [hour1, min1] = hourMinute1.split(":");
+  let [hour2, min2] = hourMinute2.split(":");
+  let hourDiff;
+  let minDiff = min2 - min1;
+  // in case where A > B but they are still in the same 12h period
+  if (Number(hour1) > 12 && Number(hour2) < 12) { 
+    hourDiff = Number(12 - (hour1 % 12)) + Number(hour2);
+    // in case where A > B and they are not within 12 hour of each other
+  } else if (hour1 > 12 && hour2 > 12 && hour1 > hour2) {
+    hourDiff = 24 + (hour2 - hour1);
+  } else {
+    hourDiff = hour2 - hour1;
+  }
+  if (minDiff < 0) {
+    hourDiff -= 1;
+    minDiff = 60 + minDiff;
+  }
+  return "".concat(hourDiff, ":", minDiff);
 }
 
-export function getHourDiff(hourMinute1 = "02:23", hourMinute2 = "13:11"){
-    let hour1 = Number(hourMinute1.split(":")[0]);
-    let hour2 = Number(hourMinute2.split(":")[0]);
-    console.log(hour1);
-    console.log(hour2);
-    console.log(`Diff: ${hour2 - hour1}`);
-}
-
-getHourDiff();
+console.log(getHourDiff());
