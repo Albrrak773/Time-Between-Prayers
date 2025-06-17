@@ -1,4 +1,4 @@
-import { to12h } from "./helpers.js";
+import { getHourDiff, to12h } from "./helpers.js";
 let adhanTimes = []
 let betweenTimes = []
 // add all adhan time span tags
@@ -38,8 +38,8 @@ async function fillTimings(){
         // Delete unwanted timings
         ["Sunrise", "Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].forEach((key) => {delete timings[key]});
 
-        fillAdhanTimings(timings)
-        fillBetweenTime(timings)
+        fillAdhanTimings(timings);
+        fillBetweenTime(timings);
     }
     catch (err){
         console.log(`Request Failed...${err}`);
@@ -60,8 +60,14 @@ function fillAdhanTimings(timings){
     }
 }
 
-function fillBetweenTime(data){
-    // const times = fomratBetweenTime(data);
+function fillBetweenTime(timings){
+    let times = Object.values(timings)
+    for (let i = 0; i < betweenTimes.length; i++) {
+        let betweenElement = betweenTimes[i];
+        let diff = getHourDiff(times[i], times[i+1]);
+        let [hour, min] = diff.split(":");
+        betweenElement.innerText = "".concat(hour + "h", min == 0 ? "" : " " + min + "m");
+    }
 }
 
 function fomratBetweenTime(data, rounded = 5){
