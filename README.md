@@ -1,3 +1,6 @@
+# a simple app to show how much time is there between prayers
+'cause I wanted to know how much time is there between asr and maghrib.
+
 ## Prayer Times API
 I used the [aladhan](https://aladhan.com/prayer-times-api) API to get the prayer time data.
 
